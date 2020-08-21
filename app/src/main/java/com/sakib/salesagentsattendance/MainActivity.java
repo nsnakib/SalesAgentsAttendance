@@ -58,17 +58,6 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                swipeRefreshLayout.setRefreshing(false);
-//                //your code on swipe refresh
-//                //we are checking networking connectivity
-//                page++;
-//                Toast.makeText(MainActivity.this, "check", Toast.LENGTH_SHORT).show();
-//                fetchingJSON();
-//            }
-//        });
 
     }
 
