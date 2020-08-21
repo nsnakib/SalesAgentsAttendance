@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -28,14 +30,13 @@ public class Details extends AppCompatActivity {
     private SimpleLocation location;
     public double longitude;
     public double latitude ;
-    ProgressDialog dialog;
+
     private String random;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initView();
 
@@ -87,7 +88,7 @@ public class Details extends AppCompatActivity {
                     iamhere();
                 } else {
 
-                    dialog.dismiss();
+
                 }
                 return;
             }
@@ -109,7 +110,6 @@ public class Details extends AppCompatActivity {
         }
         else
         {
-            dialog = ProgressDialog.show(Details.this, "Loading", "Please wait...", true);
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(AddUserInterface.URL)
@@ -124,7 +124,8 @@ public class Details extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     Log.i("Responsesaddactivity:", response.body().toString());
-                    dialog.dismiss();
+
+                    Toast.makeText(Details.this, "post created", Toast.LENGTH_SHORT).show();
 
                 }
 

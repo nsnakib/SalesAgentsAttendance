@@ -5,14 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/Layout"
     android:background="@color/colorPrimaryDark"
     tools:context=".MainActivity">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding"
-        android:layout_marginTop="@dimen/margintop"/>
+        android:layout_height="match_parent"
+        app:srl_direction="bottom"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding"
+            android:layout_marginTop="@dimen/margintop"/>
+    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
 
 </LinearLayout>

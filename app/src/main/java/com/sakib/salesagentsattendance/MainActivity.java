@@ -3,6 +3,8 @@ package com.sakib.salesagentsattendance;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,27 +16,59 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private String URLstring = "http://128.199.215.102:4040/api/stores";
     private static ProgressDialog mProgressDialog;
-    ArrayList<DataModel> dataModelArrayList;
+    private ArrayList<DataModel> dataModelArrayList;
     private RvAdapter rvAdapter;
     private RecyclerView recyclerView;
+    private com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout swipeRefreshLayout;
+    private int page=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dataModelArrayList = new ArrayList<>();
+
         recyclerView = findViewById(R.id.recycler);
+        swipeRefreshLayout = findViewById(R.id.refreshLayout);
 
         fetchingJSON();
+
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+                swipeRefreshLayout.setRefreshing(false);
+                page++;
+                fetchingJSON();
+            }
+        });
+
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                swipeRefreshLayout.setRefreshing(false);
+//                //your code on swipe refresh
+//                //we are checking networking connectivity
+//                page++;
+//                Toast.makeText(MainActivity.this, "check", Toast.LENGTH_SHORT).show();
+//                fetchingJSON();
+//            }
+//        });
 
     }
 
@@ -42,46 +76,46 @@ public class MainActivity extends AppCompatActivity {
 
         showSimpleProgressDialog(this, "Loading...","Fetching Json",false);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLstring,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://128.199.215.102:4040/api/stores?page=" + page , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
 
-                        try {
-                            removeSimpleProgressDialog();
+                try {
+                    removeSimpleProgressDialog();
 
-                            JSONObject obj = new JSONObject(response);
+                    JSONObject obj = new JSONObject(response);
 
-                            dataModelArrayList = new ArrayList<>();
-                            JSONArray dataArray  = obj.getJSONArray("data");
 
-                            for (int i = 0; i < dataArray.length(); i++) {
+                    JSONArray dataArray  = obj.getJSONArray("data");
 
-                                DataModel dataModel = new DataModel();
-                                JSONObject dataobj = dataArray.getJSONObject(i);
+                    for (int i = 0; i < dataArray.length(); i++) {
 
-                                dataModel.setName(dataobj.getString("name"));
-                                dataModel.setId(dataobj.getString("id"));
+                        DataModel dataModel = new DataModel();
+                        JSONObject dataobj = dataArray.getJSONObject(i);
 
-                                dataModelArrayList.add(dataModel);
+                        dataModel.setName(dataobj.getString("name"));
+                        dataModel.setId(dataobj.getString("id"));
 
-                            }
+                        dataModelArrayList.add(dataModel);
 
-                            setupRecycler();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
 
-                        Log.d("error.getMessage:",error.getMessage());
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    setupRecycler();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.d("error.getMessage:",error.getMessage());
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
 
         // request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -96,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
         rvAdapter = new RvAdapter(this,dataModelArrayList);
         recyclerView.setAdapter(rvAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        if(page>1)
+        {
+            recyclerView.scrollToPosition(dataModelArrayList.size() - 1);
+        }
 
     }
 
@@ -138,5 +176,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+
 
 }

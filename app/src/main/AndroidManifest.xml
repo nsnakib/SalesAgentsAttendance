@@ -15,9 +15,6 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Details">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sakib.salesagentsattendance.MainActivity" />
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
