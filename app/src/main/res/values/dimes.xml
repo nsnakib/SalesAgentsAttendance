@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin">10dp</dimen>
+    <dimen name="margintop">15dp</dimen>
+    <dimen name="topmargin">5dp</dimen>
+    <dimen name="padding">10dp</dimen>
+    <dimen name="cellheight">100dp</dimen>
+    <dimen name="fieldheight">50dp</dimen>
+    <dimen name="cardmargin">5dp</dimen>
+    <dimen name="cardradious">5dp</dimen>
+    <dimen name="textsize">18sp</dimen>
+</resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".Details">
+
+    <TextView
+        android:textSize="@dimen/textsize"
+        android:layout_margin="@dimen/margin"
+        android:id="@+id/tvname"
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_margin="@dimen/margin"
+        android:background="@drawable/rounded"
+        android:layout_below="@+id/tvname"
+        android:id="@+id/etname"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fieldheight"/>
+    <TextView
+        android:textSize="@dimen/textsize"
+        android:layout_margin="@dimen/margin"
+        android:layout_below="@+id/etname"
+        android:id="@+id/tvuserid"
+        android:text="User Id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_margin="@dimen/margin"
+        android:background="@drawable/rounded"
+        android:layout_below="@+id/tvuserid"
+        android:id="@+id/etuserid"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fieldheight"/>
+
+    <Button
+        android:layout_margin="@dimen/margin"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded"
+        android:layout_below="@+id/etuserid"
+        android:id="@+id/submit"
+        android:text="submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
